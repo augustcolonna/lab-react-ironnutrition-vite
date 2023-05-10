@@ -1,34 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+// src/App.jsx
+import "./App.css";
+import foods from "./foods.json";
+import React, { useState } from "react";
+import { Divider, Row } from "antd";
+import FoodBox from "./components/FoodBox";
+import AddFoodForm from "./components/AddFoodForm";
+import SearchBar from "./components/SearchBar";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [foodList, setFoodList] = useState(foods);
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="AddFoodEntry">
+        <Divider>Add Food Entry</Divider>
+        <AddFoodForm setFoodList={setFoodList} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="SearchBar">
+        <Divider>Search</Divider>
+        <SearchBar />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="FoodList">
+        <Divider>Food List</Divider>
+        <Row gutter={[40, 40]}>
+          {foodList.map((food, i) => {
+            return (
+              <div key={food.name + i}>
+                <FoodBox
+                  food={{
+                    name: food.name,
+                    calories: food.calories,
+                    image: food.image,
+                    servings: food.servings,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </Row>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
